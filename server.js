@@ -17,7 +17,7 @@ app.use(cors(corsOptions));
 app.use(express.json())
 
 function checkBodyContents(body){
-    if(body && body.foodDate && body.foodItem && body.portionSize && body.calories && body.mealType){
+    if(body && body.shortLength && body.longLength && body.webhook && body.webhookKey){
         return true
     } else {
         return false
@@ -42,16 +42,15 @@ app.post('/:username', function(req, res){
         //check all request fields exist
         if (checkBodyContents(req.body)){
             //build JS object for settings
-            var newLogEntry = {
-                foodDate: req.body.foodDate,
-                foodItem: req.body.foodItem,
-                portionSize: req.body.portionSize,
-                calories: req.body.calories,
-                mealType: req.body.mealType
+            var newSettingsEntry = {
+                shortLength: req.body.shortLength,
+                longLength: req.body.longLength,
+                webhook: req.body.webhook,
+                webhookKey: req.body.webhookKey
             }
 
             //add object with id to data
-            userData[req.params.username] = newLogEntry
+            userData[req.params.username] = newSettingsEntry
 
             //write data to file
             fs.writeFile(__dirname + "/data.json",
@@ -84,11 +83,10 @@ app.put('/:username', function(req, res){
         if(settings){
 
             //replace the contents of the log with the request
-            settings.foodDate = req.body.foodDate
-            settings.foodItem = req.body.foodItem
-            settings.portionSize = req.body.portionSize
-            settings.calories = req.body.calories
-            settings.mealType = req.body.mealType
+                settings.shortLength = req.body.shortLength,
+                settings.longLength = req.body.longLength,
+                settings.webhook = req.body.webhook,
+                settings.webhookKey= req.body.webhookKey
 
             //write data to file
             fs.writeFile(__dirname + "/data.json",
@@ -109,7 +107,7 @@ app.put('/:username', function(req, res){
     }
 })
 
-// Delete a user's settings
+// Delete a user settings
 app.delete('/:username', function(req, res){
     var settings = userData[req.params.username]
     if(settings){
