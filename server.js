@@ -17,7 +17,7 @@ app.use(cors(corsOptions));
 app.use(express.json())
 
 function checkBodyContents(body){
-    if(body && body.shortLength && body.longLength && body.webhook && body.webhookKey){
+    if(body && "shortLength" in body && "longLength" in body && "webhook" in body && "webhookKey" in body){
         return true
     } else {
         return false

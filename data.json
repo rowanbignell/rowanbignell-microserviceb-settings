@@ -1,0 +1,8 @@
+{
+  "Hello": {
+    "shortLength": "2",
+    "longLength": 25,
+    "webhook": true,
+    "webhookKey": {}
+  }
+}
